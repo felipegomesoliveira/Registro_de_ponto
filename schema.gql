@@ -1,0 +1,54 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Registered_time {
+  id: Float!
+  user_id: Float!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  user: User!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type User {
+  id: Float!
+  name: String!
+  email: String!
+  password: String!
+  role: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Query {
+  getUsers: [User!]!
+  getUser(id: Float!): User
+  getRegistereds_time: [Registered_time!]!
+  getRegistereds_timeFromUSer(user_id: Float!): [Registered_time!]!
+  getRegistered_time(id: Float!): Registered_time
+}
+
+type Mutation {
+  createUser(data: UserInput!): User!
+  createRegisteredTime(data: TimeRegistederedInput!): Registered_time!
+}
+
+input UserInput {
+  name: String!
+  email: String!
+  password: String!
+  role: String!
+}
+
+input TimeRegistederedInput {
+  user_id: Float!
+}
+
+type Subscription {
+  newTime_registered: Registered_time!
+}
