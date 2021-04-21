@@ -12,11 +12,13 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const common_1 = require("@nestjs/common");
 const graphql_1 = require("@nestjs/graphql");
+const auth_guard_1 = require("../auth/auth.guard");
 const user_entity_1 = require("../db/models/user.entity");
 const repo_service_1 = require("../repo.service");
 const user_input_1 = require("./input/user.input");
-let USerResolver = class USerResolver {
+let UserResolver = class UserResolver {
     constructor(repoService) {
         this.repoService = repoService;
     }
@@ -26,6 +28,10 @@ let USerResolver = class USerResolver {
     async getUser(id) {
         return this.repoService.userRepo.findOne(id);
     }
+    async userByEmail(email) {
+        return this.repoService.getUserByEmail(email);
+    }
+    ;
     async createUser(input) {
         const user = this.repoService.userRepo.create({
             name: input.name,
@@ -41,24 +47,32 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], USerResolver.prototype, "getUsers", null);
+], UserResolver.prototype, "getUsers", null);
 __decorate([
     graphql_1.Query(() => user_entity_1.default, { nullable: true }),
+    common_1.UseGuards(auth_guard_1.GqlAuthGuard),
     __param(0, graphql_1.Args('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
-], USerResolver.prototype, "getUser", null);
+], UserResolver.prototype, "getUser", null);
+__decorate([
+    graphql_1.Query(() => user_entity_1.default, { nullable: true }),
+    __param(0, graphql_1.Args('email')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "userByEmail", null);
 __decorate([
     graphql_1.Mutation(() => user_entity_1.default),
     __param(0, graphql_1.Args('data')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [user_input_1.default]),
     __metadata("design:returntype", Promise)
-], USerResolver.prototype, "createUser", null);
-USerResolver = __decorate([
-    graphql_1.Resolver(),
+], UserResolver.prototype, "createUser", null);
+UserResolver = __decorate([
+    graphql_1.Resolver(() => user_entity_1.default),
     __metadata("design:paramtypes", [repo_service_1.default])
-], USerResolver);
-exports.default = USerResolver;
+], UserResolver);
+exports.default = UserResolver;
 //# sourceMappingURL=user.resolver.js.map

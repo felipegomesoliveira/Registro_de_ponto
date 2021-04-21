@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const graphql_1 = require("@nestjs/graphql");
+const cripyto_1 = require("../../auth/cripyto");
 const typeorm_1 = require("typeorm");
 const registered_time_entity_1 = require("./registered_time.entity");
 let User = class User {
@@ -30,8 +31,10 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
-    graphql_1.Field(),
-    typeorm_1.Column(),
+    graphql_1.HideField(),
+    typeorm_1.Column({
+        transformer: cripyto_1.HashPasswordtransform
+    }),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([

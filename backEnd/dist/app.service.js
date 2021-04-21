@@ -16,9 +16,6 @@ let AppService = class AppService {
     constructor(repoService) {
         this.repoService = repoService;
     }
-    async getHello() {
-        return `there are ${await this.repoService.registered_timeRepo.count()} existent time_registered`;
-    }
 };
 AppService = __decorate([
     common_1.Injectable(),

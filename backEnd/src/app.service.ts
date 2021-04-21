@@ -6,7 +6,4 @@ export class AppService {
     constructor(private readonly repoService:RepoService){
 
     }
-    async getHello():Promise<string>{
-      return `there are ${await this.repoService.registered_timeRepo.count()} existent time_registered`
-    }
 };

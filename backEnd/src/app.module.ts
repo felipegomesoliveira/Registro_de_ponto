@@ -9,7 +9,8 @@ import RepoModule from './repo.module';
 import UserResolve from './resolvers/user.resolver'
 import Registered_time from './resolvers/time_registered.resolver'
 import { registered_timeLoader } from './db/loaders/time_registered.loader';
-import { PubSub } from 'apollo-server-express';
+import AuthModule from './auth.module';
+import { JwtStrategy } from './auth/jwt.strategy';
 
 const gqlImports = [
   UserResolve,
@@ -17,14 +18,12 @@ const gqlImports = [
 ]
 
 @Module({
-  imports: [TypeOrmModule.forRoot(ormOptions), RepoModule, ...gqlImports,
+  imports: [TypeOrmModule.forRoot(ormOptions), RepoModule, AuthModule,JwtStrategy, ...gqlImports,
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
       playground: true,
       installSubscriptionHandlers: true,
-      context: {
-        registered_timeLoader: registered_timeLoader(),
-      }
+      context: ({req}) => ({req})
     })
   ],
   controllers: [AppController],

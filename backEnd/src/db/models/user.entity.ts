@@ -1,4 +1,5 @@
-import {Field, ObjectType} from '@nestjs/graphql';
+import {Field, HideField, ObjectType} from '@nestjs/graphql';
+import { HashPasswordtransform } from 'src/auth/cripyto';
 
 import {
     Column,
@@ -25,8 +26,10 @@ import {
     @Column()
     email: string
 
-    @Field()
-    @Column()
+    @HideField()
+    @Column({
+      transformer: HashPasswordtransform
+    })
     password: string
 
     @Field()

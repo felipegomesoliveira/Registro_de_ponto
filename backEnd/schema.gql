@@ -19,23 +19,34 @@ type User {
   id: Float!
   name: String!
   email: String!
-  password: String!
   role: String!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
 
+type AuthType {
+  user: User!
+  token: String!
+}
+
 type Query {
   getUsers: [User!]!
   getUser(id: Float!): User
+  userByEmail(email: String!): User
   getRegistereds_time: [Registered_time!]!
   getRegistereds_timeFromUSer(user_id: Float!): [Registered_time!]!
   getRegistered_time(id: Float!): Registered_time
 }
 
 type Mutation {
+  login(data: AuthInput!): AuthType!
   createUser(data: UserInput!): User!
   createRegisteredTime(data: TimeRegistederedInput!): Registered_time!
+}
+
+input AuthInput {
+  email: String!
+  password: String!
 }
 
 input UserInput {

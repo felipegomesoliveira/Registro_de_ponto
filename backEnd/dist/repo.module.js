@@ -19,7 +19,7 @@ RepoModule = __decorate([
         imports: [
             typeorm_1.TypeOrmModule.forFeature([
                 user_entity_1.default,
-                registered_time_entity_1.default
+                registered_time_entity_1.default,
             ]),
         ],
         providers: [repo_service_1.default],

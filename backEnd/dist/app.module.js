@@ -16,7 +16,8 @@ const ormOptions = require("./config/orm");
 const repo_module_1 = require("./repo.module");
 const user_resolver_1 = require("./resolvers/user.resolver");
 const time_registered_resolver_1 = require("./resolvers/time_registered.resolver");
-const time_registered_loader_1 = require("./db/loaders/time_registered.loader");
+const auth_module_1 = require("./auth.module");
+const jwt_strategy_1 = require("./auth/jwt.strategy");
 const gqlImports = [
     user_resolver_1.default,
     time_registered_resolver_1.default
@@ -25,14 +26,12 @@ let AppModule = class AppModule {
 };
 AppModule = __decorate([
     common_1.Module({
-        imports: [typeorm_1.TypeOrmModule.forRoot(ormOptions), repo_module_1.default, ...gqlImports,
+        imports: [typeorm_1.TypeOrmModule.forRoot(ormOptions), repo_module_1.default, auth_module_1.default, jwt_strategy_1.JwtStrategy, ...gqlImports,
             graphql_1.GraphQLModule.forRoot({
                 autoSchemaFile: 'schema.gql',
                 playground: true,
                 installSubscriptionHandlers: true,
-                context: {
-                    registered_timeLoader: time_registered_loader_1.registered_timeLoader(),
-                }
+                context: ({ req }) => ({ req })
             })
         ],
         controllers: [app_controller_1.AppController],
